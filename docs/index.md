@@ -33,7 +33,15 @@ git switch main
 ```
 
 ### Step 3: Install the Ruby Gem Dependencies
-To install all the Gem dependencies for the app, we run the bundle command, like this:
+Before we install the dependencies, we need to add a single dependency to our `Gemfile`. 
+We will be utilizing the gem "breadcrumbs_on_rails" for rendering breadcrumbs in our application.
+
+Add the following to the `Gemfile` located at the root of the project:
+```ruby
+gem "breadcrumbs_on_rails"
+```
+
+Then, we can install all the Gem dependencies for the app. We should run the bundle command, like this:
 
 ```shell
 bundle install
