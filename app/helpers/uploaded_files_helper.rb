@@ -1,27 +1,27 @@
 module UploadedFilesHelper
-  def get_filename(file)
-    file.file.blob.filename
+  def get_filename(uploaded_file)
+    uploaded_file.file.blob.filename
   end
 
-  def get_content_type(file)
-    file.file.blob.content_type
+  def get_content_type(uploaded_file)
+    uploaded_file.file.blob.content_type
   end
 
-  def get_file_count(files)
-    if files.count.equal? 1
+  def get_file_count(uploaded_files)
+    if uploaded_files.count.equal? 1
       '1 file'
     else
-      "#{files.count} files"
+      "#{uploaded_files.count} files"
     end
   end
 
-  def image?(file)
-    content_type = get_content_type(file)
+  def image?(uploaded_file)
+    content_type = get_content_type(uploaded_file)
 
     content_type.to_s.split('/').first == 'image'
   end
 
-  def pdf?(file)
-    get_content_type(file) == 'application/pdf'
+  def pdf?(uploaded_file)
+    get_content_type(uploaded_file) == 'application/pdf'
   end
 end

@@ -91,3 +91,70 @@ class UploadedFile < ApplicationRecord
   has_one_attached :file
 end
 ```
+
+### Step 9: Creating the UploadedFiles Controller
+To generate the UploadedFiles controller, run the following:
+```shell
+rails g controller uploaded_files new show index
+```
+
+This will create a file named `uploaded_files_controller.rb` in `app/controllers` as well as three template files in `app/views/uploaded_files`.
+Additionally, the helper (UploadedFilesHelper) will be created in `app/helpers`.
+
+### Step 10: Adding Helper Methods
+Within Rails, its nice to use helpers in order to simplify some layout code. Lets add a few things to the UploadedFilesHelper.
+
+The first is a helper function that will return the filename of a file attached to an UploadedFile entity.
+
+Add the following to the `uploaded_files_helper.rb` file in `app/helpers`:
+
+```ruby
+  def get_filename(uploaded_file)
+    uploaded_file.file.blob.filename
+  end
+```
+
+The second is a helper function that will return the content type (like application/pdf, image/jpeg) for a file attached to an UploadedFile entity.
+
+Add the following to the `uploaded_files_helper.rb` file in `app/helpers`:
+```ruby
+  def get_content_type(uploaded_file)
+    uploaded_file.file.blob.content_type
+  end
+```
+
+The third is a helper function that simplifies the logic needed in the layout file.
+It will return a string like "1 file" or "2 files", depending on how many UploadedFile entities exist in the database.
+
+Add the following to the `uploaded_files_helper.rb` file in `app/helpers`:
+```ruby
+  def get_file_count(uploaded_files)
+    if uploaded_files.count.equal? 1
+      '1 file'
+    else
+      "#{uploaded_files.count} files"
+    end
+  end
+```
+
+The fourth is a helper function that checks if a file's content type is of an image. You will see how we use this later.
+
+Add the following to the `uploaded_files_helper.rb` file in `app/helpers`:
+```ruby
+  def image?(uploaded_file)
+    content_type = get_content_type(uploaded_file)
+
+    content_type.to_s.split('/').first == 'image'
+  end
+```
+
+The fifth and final is a helper function that checks if a file's content type is that of a PDF.
+
+Add the following to the `uploaded_files_helper.rb` file in `app/helpers`:
+```ruby
+  def pdf?(uploaded_file)
+    get_content_type(uploaded_file) == 'application/pdf'
+  end
+```
+
+When all is said and done, the helper file should look like [this](https://github.com/128keaton/file-upload/blob/demo/app/helpers/uploaded_files_helper.rb).

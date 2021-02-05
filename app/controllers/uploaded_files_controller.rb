@@ -1,5 +1,3 @@
-
-
 class UploadedFilesController < ApplicationController
   include UploadedFilesHelper
 
