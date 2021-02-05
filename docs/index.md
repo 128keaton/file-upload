@@ -37,8 +37,9 @@ git switch main
 
 ### Step 3: Install the Ruby Gem Dependencies
 
-Before we install the dependencies, we need to add a single dependency to our `Gemfile`. We will be utilizing the gem "
-[breadcrumbs_on_rails](https://github.com/weppos/breadcrumbs_on_rails)" for rendering breadcrumbs in our application.
+Before we install the dependencies, we need to add a single dependency to our `Gemfile`. 
+
+We will be utilizing the gem [breadcrumbs_on_rails](https://github.com/weppos/breadcrumbs_on_rails) for rendering breadcrumbs in our application.
 
 Add the following to the `Gemfile` located at the root of the project:
 
