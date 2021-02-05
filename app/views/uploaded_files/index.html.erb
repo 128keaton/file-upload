@@ -1,0 +1,10 @@
+<div class="files">
+  <%= link_to 'Upload File', new_uploaded_file_path, class: 'btn btn-primary mb-5 mt-2 w-100' %>
+
+  <h5 class="text-secondary text-center font-weight-normal"><%= get_file_count(@files) %></h5>
+  <ul class="list-group">
+    <% @files.each do |file| %>
+      <%= render partial: 'uploaded_file', locals: {file: file} %>
+    <% end %>
+  </ul>
+</div>

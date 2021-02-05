@@ -1,0 +1,8 @@
+<%= link_to uploaded_file_path(file), class: "list-group-item d-flex justify-content-between align-items-center" do %>
+  <span class="d-block h5 m-0">
+      <%= get_filename(file) %>
+  </span>
+    <span class="d-block btn btn-secondary btn-outline-light">
+      <%= get_content_type(file) %>
+  </span>
+<% end %>

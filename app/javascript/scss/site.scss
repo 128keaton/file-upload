@@ -1,0 +1,48 @@
+@import "~bootstrap/scss/bootstrap";
+
+
+html, body {
+  height: 100%;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.card {
+  min-width: 800px;
+  min-height: 800px;
+
+  .card-body {
+    position: relative;
+  }
+}
+
+.breadcrumb {
+  justify-content: center;
+
+  li {
+    margin-right: 1em;
+    margin-left: 1em;
+
+    &:last-child {
+      margin-right: 0;
+      margin-left: 1em;
+    }
+  }
+}
+
+.file .btn {
+  position: absolute !important;
+  bottom: 1em;
+  left: 1em;
+  right: 1em;
+}
+
+iframe {
+  height: 500px;
+  width: 450px;
+}

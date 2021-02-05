@@ -63,6 +63,8 @@ GEM
     bindex (0.8.1)
     bootsnap (1.7.1)
       msgpack (~> 1.0)
+    breadcrumbs_on_rails (4.0.0)
+      rails (>= 5.0)
     builder (3.2.4)
     byebug (11.1.3)
     concurrent-ruby (1.1.8)
@@ -180,6 +182,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap (>= 1.4.4)
+  breadcrumbs_on_rails
   byebug
   jbuilder (~> 2.7)
   listen (~> 3.3)

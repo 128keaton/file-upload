@@ -1,0 +1,16 @@
+<% content_for(:html_title) { 'View File' } %>
+
+<div class="file text-center d-flex flex-column align-items-center">
+  <h3><%= get_filename(@file) %></h3>
+  <% if image?(@file) %>
+    <%= image_tag @file.file %>
+  <% end %>
+
+  <% if pdf?(@file) %>
+    <iframe src="<%= url_for(@file.file) %>">
+
+    </iframe>
+  <% end %>
+  <br>
+  <%= link_to 'Download', @file.file, class: 'btn btn-primary' %>
+</div>
