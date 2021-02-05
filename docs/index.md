@@ -47,7 +47,7 @@ yarn install
 ```
 
 ### Step 5: Initialize the Database
-To (re-)initialize the database and populate it with seed data, we run the rails command, like this:
+To initialize the database we run the rails `db:migrate:reset` command, like this:
 
 ```shell
 rails db:migrate:reset
