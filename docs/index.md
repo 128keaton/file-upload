@@ -15,7 +15,7 @@ As a result, you should have the following installed on your development machine
 
 If the above is all installed and working properly, you are ready to move to the next step.
 
-## Setup
+## Adding File Uploads
 
 ### Step 1: Clone the GitHub Repo
 First, clone the base repository located like this:
