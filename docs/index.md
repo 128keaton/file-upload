@@ -61,3 +61,33 @@ rails server
 ```
 
 At this point the base application should be running at [http://localhost:3000](http://localhost:3000)
+
+### Step 7: Generate the UploadedFile Model
+To generate the UploadedFile model, run the following:
+```shell
+rails g model UploadedFile
+```
+
+We're basically telling Rails to create a new model named `UploadedFile`.
+We are not adding attributes as ActiveStorage automatically handles this once we add the appropriate lines to our model file.
+
+### Step 8: Attaching ActiveStorage to the UploadedFile Model
+
+First, open the file located at `app/models/uploaded_file.rb`. It should look like the following:
+```ruby
+class UploadedFile < ApplicationRecord
+
+end
+```
+
+Between the beginning of class definition (first line) and the `end` statement, add the following:
+```ruby
+  has_one_attached :file
+```
+
+The resulting file should look like the following:
+```ruby
+class UploadedFile < ApplicationRecord
+  has_one_attached :file
+end
+```
