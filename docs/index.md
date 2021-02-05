@@ -95,7 +95,7 @@ end
 ### Step 9: Creating the UploadedFiles Controller
 To generate the UploadedFiles controller, run the following:
 ```shell
-rails g controller uploaded_files new show index
+rails g controller uploaded_files new show index create
 ```
 
 This will create a file named `uploaded_files_controller.rb` in `app/controllers` as well as three template files in `app/views/uploaded_files`.
@@ -158,3 +158,47 @@ Add the following to the `uploaded_files_helper.rb` file in `app/helpers`:
 ```
 
 When all is said and done, the helper file should look like [this](https://github.com/128keaton/file-upload/blob/demo/app/helpers/uploaded_files_helper.rb).
+
+### Step 11: Adding Routes
+
+This application is very simple and as such, we can utilize the `resources` helper in our `app/config/routes.rb` file. 
+
+All the routes in this very simple application can be added with two lines:
+```ruby
+  resources :uploaded_files
+
+  root 'uploaded_files#index'
+```
+
+The resulting `routes.rb` file should look like [this](https://github.com/128keaton/file-upload/blob/demo/app/helpers/uploaded_files_helper.rb).
+
+### Step 12: Adding Controller Methods
+
+Your controller file should look like this to start with:
+
+```ruby
+class UploadedFilesController < ApplicationController
+  def index
+  end
+
+  def show
+  end
+
+  def new
+  end
+
+  def create
+  end
+end
+
+```
+
+The index function needs to have a variable to pass to the view template inorder to show the file list. 
+
+To do this, we need to add the following inside the index function:
+
+```ruby
+    @files = UploadedFile.all
+```
+
+This adds a template variable `@files` that is passed and available in the `index.html.erb` layout file.
