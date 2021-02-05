@@ -45,3 +45,19 @@ To install all the JavaScript package dependencies for the app, we run the yarn 
 ```shell
 yarn install
 ```
+
+### Step 5: Initialize the Database
+To (re-)initialize the database and populate it with seed data, we run the rails command, like this:
+
+```shell
+rails db:migrate:reset
+```
+
+### Step 6: Run the Development Web Server
+To start the development webserver that runs the demo app, we run the rails command, like this:
+
+```shell
+rails server
+```
+
+At this point the base application should be running at [http://localhost:3000](http://localhost:3000)
