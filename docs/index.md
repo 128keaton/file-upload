@@ -327,6 +327,53 @@ Please take note of the `private` above the `create_params` definition.
 
 ### Step 13: Creating and Editing the View Templates
 
+#### Changing the Base Application Layout
+We're trying to make this app look really nice, but also provide some functionality. 
+Inside the `app/views/layouts` directory, we need to edit a file named `application.html.erb`.
+This is the main layout file for the entire application meaning that the rendering engine renders this template first
+and then the following views inside of it.
+
+Inside the `<body>` tag, add the following content:
+```html
+<div class="main">
+  <div class="card">
+    <div class="card-body">
+      <h1 class="card-title text-center m-2 mb-4">
+        <%= content_for?(:html_title) ? yield(:html_title) : "Files" %>
+      </h1>
+      <%= yield %>
+    </div>
+    <div class="card-footer">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <%= render_breadcrumbs :tag => :li, :separator => ' / '%>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+```
+
+Lets step through the code, line by line. 
+
+The first `<div>` tag serves as a general wrapper and is assigned the class `main`.
+The next `<div>` tag is a Bootstrap card as it has the class `card`.
+The following `<div>` tag is a wrapper for the card body as it has the class `card-body`.
+
+The `card` and `card-body` classes are very important as Bootstrap's CSS is expecting the HTML to be like this.
+
+Next, we have the `<h1>` tag that has the classes `card-title`, `text-center`, `m-2`, and `mb-4`. The `card-title` class is
+specific to the Bootstrap card and is required for proper formatting. The class `text-center` will center the text inside the `<h1>` tag.
+Lastly, the `m-2` and `mb-4` classes give the `<h1>` tag a bit of margin on the top, left, and right, as well as more on the bottom.
+
+Inside the `<h1>` tag, we have some Ruby Liquid Templating logic that checks if we have overridden the `:html_title` variable in a 
+template and renders the content provided by the variable. Otherwise, it will just display "Files" inside the `<h1>` tag.
+
+This allows us to have a standardized layout across the application. Later on, in the following view template files, you
+will see how to override the title to provide your own.
+
+#### Uploaded Files View Templates
+
 Inside the `app/views/uploaded_files` directory you should have three files named `index.html.erb`, `new.html.erb`, and `show.html.erb`.
 These three files are the main view templates we will modify next.
 
