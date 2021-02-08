@@ -437,3 +437,28 @@ center the text, sets the color of the text to a light gray, and make the text l
 The `<ul>` tag creates a list that we can fill with our UploadedFile partial we created earlier. Within the block, we see
 and example of the Ruby liquid templating logic. This is a for-loop which iterates through the `@files` variable and renders
 the UploadedFile partial for that file. The `locals` bit is important as this tells the rendering engine to use that `UploadedFile` entity.
+
+#### New Template
+The new template will also be very basic, we will override the `:html_title` variable so we can display **Upload File**
+at the top. The remainder of the template will be a form with a file upload option and a submit button.
+
+Here is what you need to add in `new.html.erb`:
+```html
+<% content_for(:html_title) { 'Upload File' } %>
+
+<%= form_for @file do |f| %>
+  <div class="d-flex justify-content-between align-items-center m-5 p-5">
+    <%= f.file_field :file, class: 'form-control-file' %>
+
+    <%= f.submit 'Upload', class: 'btn btn-primary' %>
+  </div>
+<% end %>
+```
+
+The first line is what is overriding the `:html_title` variable, telling the base layout that we want to display 
+**Upload File** instead of **Files**.
+
+The next line creates a `<form>` tag for the new `UploadedFile` entity.
+Inside the form, we're creating a `<div>` with classes for some layout improvements.
+
+![Before and After](img/upload-file-comparison.gif)
