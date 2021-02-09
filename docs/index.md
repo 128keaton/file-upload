@@ -757,4 +757,8 @@ At this point, the application should be functionally complete, and on the plus 
 
 ![Preview](img/web-app.png)
 
+![Preview of an Image](img/web-app-img-preview.png)
+
+![Preview of a PDF](img/web-app-pdf-preview.png)
+
 Thank you for reading!
