@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'cgi'
 
 file_name = 'docs/index.md'
 
@@ -13,7 +12,7 @@ File.open(file_name, 'r') do |f|
     next if !line.start_with?('#') || forbidden_words.any? { |w| line =~ /#{w}/ } || inside_code_snippet
 
     title = line.gsub('#', '').strip
-    href = CGI.escape title.gsub(' ', '-').downcase
+    href = title.gsub(' ', '-').downcase
     puts '  ' * (line.count('#') - 1) + "* [#{title}](\##{href})"
   end
 end
