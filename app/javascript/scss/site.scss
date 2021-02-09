@@ -10,6 +10,9 @@ html, body {
   justify-content: center;
   align-items: center;
   height: 100%;
+  a.list-group-item:hover {
+    text-decoration: none;
+  }
 }
 
 .card {
@@ -45,8 +48,4 @@ html, body {
 iframe {
   height: 500px;
   width: 450px;
-}
-
-a.list-group-item:hover {
-  text-decoration: none;
 }

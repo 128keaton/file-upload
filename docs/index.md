@@ -344,7 +344,7 @@ Inside the `<body>` tag, add the following content:
       <%= yield %>
     </div>
     <div class="card-footer">
-      <nav aria-label="breadcrumb">
+      <nav>
         <ol class="breadcrumb">
           <%= render_breadcrumbs :tag => :li, :separator => ' / '%>
         </ol>
@@ -371,6 +371,25 @@ template and renders the content provided by the variable. Otherwise, it will ju
 
 This allows us to have a standardized layout across the application. Later on, in the following view template files, you
 will see how to override the title to provide your own.
+
+Next, the line containing `<%= yield %>` tells the rendering engine where it can render the view inside of it.
+
+The last `<div>` is the Bootstrap card footer, which has the class `card-footer` (see where this is going?). This is 
+where we will render our breadcrumbs. If you don't know what breadcrumbs are, they look like this:
+
+![Breadcrumbs](img/breadcrumbs.png)
+
+It is really just a basic way to allow the user to navigate 'up' through the view hierarchy. Additionally, it shows a user
+how far inside the app they have navigated. In the picture above, a user can click on 'Home' and the browser will go to the root.
+
+Inside, we have a `<nav>` tag as that is what Bootstrap expects for breadcrumbs.
+Inside the `<nav>` tag, we add an `<ol>` tag, which is the more straight-laced cousin of the `<ul>` tag, 
+as the `<ol>` tag is for an **O**rdered **L**ist, and the `<ul>` tag is for an **U**nordered **L**ist. The `<ol>` tag has 
+a single class, `breadcrumb`, as once again Bootstrap's CSS is relying on this for proper formatting.
+
+Finally, inside the `<ol>` tag we will use a helper defined by the `breadcrumbs_on_rails` gem. This helper will dynamically
+render our breadcrumbs depending on where we have navigated in the app. The gem handles all of that automatically, so
+it is really that easy!
 
 #### Uploaded Files View Templates
 
@@ -459,6 +478,223 @@ The first line is what is overriding the `:html_title` variable, telling the bas
 **Upload File** instead of **Files**.
 
 The next line creates a `<form>` tag for the new `UploadedFile` entity.
-Inside the form, we're creating a `<div>` with classes for some layout improvements.
+Inside the form, we're creating a `<div>` with classes for some layout improvements. The gif below illustrates the difference
+these classes make.
 
 ![Before and After](img/upload-file-comparison.gif)
+
+Isn't that much better?
+
+Moving on, inside of the `<div>` tag, we're using the Rails helpers once again to create a file field and a submit button
+inside the form. 
+
+#### Show Template
+The new template will show the user information about the file, like the file name, and allow them to download the file.
+Additionally, we'd like to show them a preview of the file if its an image or a PDF. This is where our other helpers come into use.
+
+Here is what you need to add in `show.html.erb`:
+```html
+<% content_for(:html_title) { 'View File' } %>
+
+<div class="file text-center d-flex flex-column align-items-center">
+  <h3><%= get_filename(@file) %></h3>
+  <% if image?(@file) %>
+    <%= image_tag @file.file %>
+  <% end %>
+
+  <% if pdf?(@file) %>
+    <iframe src="<%= url_for(@file.file) %>">
+
+    </iframe>
+  <% end %>
+  <br>
+  <%= link_to 'Download', @file.file, class: 'btn btn-primary' %>
+</div>
+```
+
+The first line is, once again, overriding the `:html_title` variable, telling the base layout that we want to display 
+**View File** at the top instead of **Files**.
+
+Similar to our form, next we're creating a `<div>` that includes classes that reference Bootstrap's layout styling. We
+want the text centered and we want to use flexbox to align everything inside the `<div>`.
+
+Next, we are creating an `<h3>` tag that displays the filename using our `get_filename` helper (they are so helpful!).
+
+After that, we are using an if-statement in conjunction with our `image?` helper to see if the file is an image, and if so
+use the `image_tag` helper to display the image.
+
+Otherwise, we can check if our file is a PDF using our `pdf?` helper and render an `<iframe>` that displays the PDF to the user.
+
+The `<br>` tag is added for a bit of spacing, but one could also add `mb-2` or similar to both the image tag and the iframe tag,
+as only one will be displayed at a time (a file can't be an image and a PDF at the same time, after all).
+
+Finally, we utilize the `link_to` Rails helper to allow the user to download the file with a click of a button.
+
+### Step 14: Installing Bootstrap
+
+First things first, we need to include the Bootstrap styling in our asset compilation. I won't delve into why we need to do this,
+all you need to know is *how* to do this.
+
+Using the Yarn CLI tool, we need to install and save bootstrap and its dependencies. Do do this, run the following 
+in a shell:
+```shell
+yarn add bootstrap jquery popper.js
+```
+
+When it is finished, it will have downloaded Bootstrap, jQuery, and Popper.js. jQuery and Popper.js are used in Bootstrap
+for some animations and other small things.
+
+Next, we need to edit the `application.js` file located at `app/javascript/packs` and add a few `import` statements.
+
+Add the following below `import "channels"`:
+```js
+import "jquery"
+import "popper.js"
+import "bootstrap"
+import "scss/site"
+```
+
+This tells the application to include jQuery, Popper.js, and Bootstrap in the javascript for the application. The last line
+is important in the next step, as it tells the application to include our custom stylesheet.
+
+### Step 15: Adding Styling
+
+Now that we have installed Bootstrap, we can finally get to styling our site.
+First things first, we need to add a new folder in the `app/javascript` directory named `scss`.
+To do this, run the following in a shell:
+```shell
+mkdir app/javascript/scss
+```
+*(you can also do this in your IDE if you so choose to)*
+
+Inside this new `scss` folder, create a new file called `site.scss`. This is the file we referenced in our `application.js` file.
+
+To create the file, run the following in a shell:
+```shell
+touch app/javascript/scss/site.scss
+```
+*(you can also do this in your IDE if you so choose to)*
+
+Next, lets start editing `site.scss`. Here is what we need to add first:
+```scss
+@import "~bootstrap/scss/bootstrap";
+```
+
+This line imports all of Bootstraps styles. This is very important because otherwise the site would not have any 
+of Bootstrap's styling and it would not look right at all.
+
+#### Global Styling
+
+Next, lets set some global styling options by adding the following:
+```scss
+html, body {
+  height: 100%;
+}
+```
+
+This makes sure that the site is always filling the height available. Many applications that use the term `responsive`
+use something similar to this to ensure everything is spaced correctly on varying sized screens.
+
+#### Main Styling
+
+If you remember, our main "wrapper" `<div>` tag has the class `main` associated with this. We will style this wrapper accordingly:
+```scss
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  a.list-group-item:hover {
+    text-decoration: none;
+  }
+}
+```
+
+This tells our browser that the `<div>` with class `main` needs to use Flexbox, justifying and aligning everything center.
+This means that our content inside the `<div>` will be centered on both the X and Y axis. Next, we're setting the height
+to 100% to entirely fill the page up with our content.
+
+The `a.list-group-item:hover` selector applies styles on the clickable list items when the user hovers their mouse over them.
+This is optional, but I prefer to not show the underline on a link when its hovered over.
+
+#### Card Styling
+
+Bootstrap's card styling works really well, but I like to add a few things to ensure that the layout is consistent.
+```scss
+.card {
+  min-width: 800px;
+  min-height: 800px;
+
+  .card-body {
+    position: relative;
+  }
+}
+```
+
+The code above sets both the minimum width and the minimum height of the `card` to 800px. This means that if our content
+doesn't take up 800px, either in height or width, the card will still be 800px square. However, if the content needs to
+be larger, the card can grow to accommodate.
+
+The selector `.card-body` within the `.card` selector sets the position to relative so anything inside the card's body
+will align and position itself relative to the card body. This is important to ensure certain elements don't look strange
+when you're using absolute positioning.
+
+
+#### Breadcrumbs Styling
+
+Unfortunately, the gem we're using for breadcrumbs isn't 100% compatible with Bootstrap, so this code corrects
+some of the layout oddities we see.
+```scss
+.breadcrumb {
+  justify-content: center;
+
+  li {
+    margin-right: 1em;
+    margin-left: 1em;
+
+    &:last-child {
+      margin-right: 0;
+      margin-left: 1em;
+    }
+  }
+}
+```
+
+Bootstrap's CSS already uses Flexbox for the breadcrumb, but doesnt align it horizontally centered, so that is why
+we have the `justify-content: center;` line without any other Flexbox-related properties.
+
+Next, the `li` selector looks for the list item elements rendered by the gem and adds margin to both sides.
+Finally, the `&:last-child` selector will tell the browser to remove the padding on the right for the last breadcrumb.
+This is so the breadcrumbs still look centered when we have multiple breadcrumbs.
+
+This all makes a huge visual difference as you can see below:
+![Before and After](img/breadcrumbs-comparison.gif)
+
+#### File Details Styling
+
+The download button on our file's `show` page isn't in a consistent location. I like to keep it at the bottom, so we
+add the following:
+```scss
+.file .btn {
+  position: absolute !important;
+  bottom: 1em;
+  left: 1em;
+  right: 1em;
+}
+
+iframe {
+  height: 500px;
+  width: 450px;
+}
+```
+
+On the `show` page, we created a "wrapper" `<div>` with the class `file`. In our styling above, the selector `.file .btn`
+looks for our Bootstrap button and applies the styles. We tell the browser that we want our button to be absolutely positioned,
+adding the `!important` flag at the end there ensures that Bootstrap's styling will be overridden. The `bottom`, `left`, and `right`
+properties tell our browser that we want the button 1em from the bottom, left, and right. 
+
+Finally, if we have an `iframe` tag on the page, which is used for PDF previews, we need to make sure that it is large enough
+for the user to see, scroll through, and interact width. We're telling the browser here to use an explicit height and width
+of 500px and 450px respectively.
+
