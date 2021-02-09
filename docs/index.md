@@ -20,6 +20,7 @@
     * [Step 13: Creating and Editing the View Templates](#step-13-creating-and-editing-the-view-templates)
     * [Step 14: Installing Bootstrap](#step-14-installing-bootstrap)
     * [Step 15: Adding Styling](#step-15-adding-styling)
+* [Wrapping Up](#wrapping-up)
 
 ## Prerequisites
 
@@ -749,3 +750,11 @@ Finally, if we have an `iframe` tag on the page, which is used for PDF previews,
 enough for the user to see, scroll through, and interact width. We're telling the browser here to use an explicit height
 and width of 500px and 450px respectively.
 
+
+### Wrapping Up
+
+At this point, the application should be functionally complete, and on the plus side it should also look nice!
+
+![Preview](img/web-app.png)
+
+Thank you for reading!
